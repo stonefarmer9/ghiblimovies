@@ -7,6 +7,7 @@
     />
     <movie-card v-else
       :selectedMovieId="selectedMovie.id"
+      :peopleLink="selectedMovie.people"
     />
   </div>
 </template>

@@ -1,43 +1,39 @@
 <template>
-  <div class="film-container">
-    <div class="title">
-      <h1>{{ selectedMovie.title }}</h1>
-    </div>
-    <div class="description">
-      {{ selectedMovie.description }}
-    </div>
-    <div class="card-container" :style="gridStyle">
-      <div class="card">
-        <h3>Directed by</h3>
-        {{ selectedMovie.director }}
-      </div>
-      <div class="card">
-          <h3>Produced by</h3>
-        {{ selectedMovie.producer }}
-      </div>
-      <div class="card">
-        <h3>Release Date</h3>
-        {{ selectedMovie.release_date }}
-      </div>
-      <div class="card">
-        <h3>Rotten Tomatoes Score</h3>
-          {{ selectedMovie.rt_score }}
-      </div>
-      <div class="card">
-        <ul v-if="characterList === []">
-          <li v-for="character in characterList" :key="selectedMovie.id">
-            {{ character.name }}
-          </li>
-        </ul>
-        <div v-else>Sadly there are no characters listed for this film</div>
-      </div>
-      <div class="info-cards-container">
-        <div class="info-card">
-        </div>
-      </div>
-    </div>
-</div>
+<div class="film-container">
+  <div class="title">
+    <h1>{{ selectedMovie.title }}</h1>
   </div>
+  <div class="description">
+    {{ selectedMovie.description }}
+  </div>
+  <div class="card-container" :style="gridStyle">
+    <div class="card">
+      <h3>Directed by</h3>
+      {{ selectedMovie.director }}
+    </div>
+    <div class="card">
+      <h3>Produced by</h3>
+      {{ selectedMovie.producer }}
+    </div>
+    <div class="card">
+      <h3>Release Date</h3>
+      {{ selectedMovie.release_date }}
+    </div>
+    <div class="card">
+      <h3>Rotten Tomatoes Score</h3>
+      {{ selectedMovie.rt_score }}
+    </div>
+    <div v-if="characterList.length > 0" class="card">
+      <ul class="characterList">
+        <li v-for="character in characterList" :key="character.id">
+          {{ character.name }}
+        </li>
+      </ul>
+    </div>
+    <div v-else class="card">Sadly no data for this one </div>
+  </div>
+</div>
+
 </template>
 
 
@@ -45,7 +41,8 @@
 export default {
   name: 'movie-card',
   props: {
-    selectedMovieId: String
+    selectedMovieId: String,
+    peopleLink: Array
   },
   data(){
     return {
@@ -61,16 +58,16 @@ export default {
       }
     }
   },
-  mounted() {
+  beforeMount() {
     this.getMovie(this.selectedMovieId)
+    this.getCharacters(this.peopleLink)
   },
   methods: {
     async getMovie(id) {
       try {
         const response = await fetch(`https://ghibliapi.herokuapp.com/films/${id}`)
-        const data = await response.json() //https://ghibliapi.herokuapp.com/films/0440483e-ca0e-4120-8c50-4c8cd9b965d6
+        const data = await response.json()
         this.selectedMovie = data
-        this.getCharacters(this.selectedMovie.people)
       } catch (error) {
         // eslint-disable-next-line
         console.error(error)
@@ -79,7 +76,6 @@ export default {
     async getCharacters(characterArray) {
       if( characterArray.length > 1){
         let promises = []
-        let list = []
         characterArray.forEach(function(url){
           promises.push(fetch(url))
         })
@@ -140,6 +136,10 @@ export default {
 .title {
   font-size: 1.7em;
   font-style: italic;
+}
+
+.characterList {
+  list-style: none;
 }
 
 
