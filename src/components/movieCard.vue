@@ -31,6 +31,7 @@
       </ul>
     </div>
     <div v-else class="card">Sadly no data for this one </div>
+    <button class="card" @click="$emit('close:movie')">CLOSE</button>
   </div>
 </div>
 
@@ -48,7 +49,7 @@ export default {
     return {
       numberOfColumns: 4,
       selectedMovie: [],
-      characterList: [],
+      characterList: []
     }
   },
   computed: {

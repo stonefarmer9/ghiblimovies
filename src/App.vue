@@ -5,9 +5,10 @@
       :allMovies="allMovies"
       @show:movie="showMovie"
     />
-    <movie-card v-else
+    <MovieCard v-else
       :selectedMovieId="selectedMovie.id"
       :peopleLink="selectedMovie.people"
+      @close:movie="closeMovie"
     />
   </div>
 </template>
@@ -46,9 +47,13 @@ export default {
     },
     showMovie(movie) {
       this.selectedMovie = movie
-      // eslint-disable-next-line
-    }
+
+    },
+    closeMovie(){
+      this.selectedMovie = null
   }
+
+  },
 }
 </script>
 
