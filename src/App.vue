@@ -1,23 +1,25 @@
 <template>
   <div id="app" class="container">
     <img alt="Vue logo" src="./assets/ghibli.png">
-    <FullMovieList v-if="movie === null"
+    <FullMovieList v-if="selectedMovie === null"
       :allMovies="allMovies"
       @show:movie="showMovie"
     />
-    <MovieCard v-else
-      :selectedMoviemovie="selectedMovie"
+    <movie-card v-else
+      :selectedMovieId="selectedMovie.id"
     />
   </div>
 </template>
 
 <script>
 import FullMovieList from '@/components/fullMovieList.vue'
+import MovieCard from '@/components/movieCard.vue'
 
 export default {
   name: 'app',
   components: {
-    FullMovieList
+    FullMovieList,
+    MovieCard,
   },
   data() {
     return {
@@ -30,22 +32,20 @@ export default {
   },
   methods: {
     async getMovies() {
-      try{
+      try {
         const response = await fetch('https://ghibliapi.herokuapp.com/films')
         const data = await response.json()
         this.allMovies = data
+        console.log(this.allMovies);
         // eslint-disable-next-line
-        console.log("SUCCESS", data)
       } catch (error){
         // eslint-disable-next-line
         console.error(error)
       }
     },
     showMovie(movie) {
-      console.log("I Got here", movie);
       this.selectedMovie = movie
       // eslint-disable-next-line
-      console.log(this.movie);
     }
   }
 }
