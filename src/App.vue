@@ -28,10 +28,10 @@ export default {
       allMovies: [],
       selectedMovie: null,
     }
-  },
+  },//data ends here
   mounted(){
     this.getMovies()
-  },
+  },//mounted ends here
   methods: {
     async getMovies() {
       try {
@@ -52,8 +52,7 @@ export default {
     closeMovie(){
       this.selectedMovie = null
   }
-
-  },
+},//Methods end here
 }
 </script>
 

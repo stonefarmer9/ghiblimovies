@@ -24,6 +24,7 @@
       {{ selectedMovie.rt_score }}
     </div>
     <div v-if="characterList.length > 0" class="card">
+      <h3>Character List</h3>
       <ul class="characterList">
         <li v-for="character in characterList" :key="character.id">
           {{ character.name }}
@@ -116,11 +117,15 @@ export default {
   box-shadow: 0px 0px 15px 10px  #b3c6ff;
   border-radius: 12px;
   transition: transform .8s;
+  overflow: scroll;
+  height: 200px;
+  text-align: center;
 }
 
 .card:hover {
   box-shadow: 0px 0px 85px 25px 20px;
-  transform: scale(1.5)
+  transform: scale(1.5);
+  height: auto;
 }
 .description {
   margin: 1rem;
